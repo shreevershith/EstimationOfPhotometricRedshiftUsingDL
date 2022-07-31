@@ -1,0 +1,48 @@
+With Z value dataset :
+
+DR12,DR13,DR14,DR16 :
+SELECT ALL
+  p.objid, p.modelMag_u, p.modelMag_g, p.modelMag_r, p.modelMag_i, p.modelMag_z, p.fiberMag_u, p.fiberMag_g, p.fiberMag_r, p.fiberMag_i, p.fiberMag_z, p.petroR50_r, p.petroR50_z, p.petroR90_r, p.petroR90_z, p.r, p.i, p.z, s.z as redshift, s.zerr
+FROM PhotoObj AS p
+   JOIN SpecObj AS s ON s.bestobjid = p.objid
+WHERE 
+  (s.class='GALAXY' OR s.class='QSO') AND 
+  s.z BETWEEN 0 and 8 AND
+  CLEAN = 1 AND
+  s.zerr < 0.05   
+
+DR7 : 
+SELECT ALL
+    p.objid, p.modelMag_u, p.modelMag_g, p.modelMag_r, p.modelMag_i, p.modelMag_z, p.fiberMag_u, p.fiberMag_g, p.fiberMag_r, p.fiberMag_i, p.fiberMag_z, p.petroR50_r, p.petroR50_z, p.petroR90_r, p.petroR90_z, p.r, p.i, p.z, s.z as redshift, s.zerr
+FROM PhotoObj AS p
+   JOIN SpecObj AS s ON s.bestobjid = p.objid
+WHERE 
+  (s.specClass='2' OR s.specClass='3' OR s.specClass='4' OR s.specClass='5') AND
+  s.z BETWEEN 0 and 8 AND
+  CLEAN = 1 AND
+  s.zerr < 0.05 
+
+
+Without Z value dataset :
+
+DR12,DR13,DR14,DR16 :
+SELECT ALL
+  p.objid, p.modelMag_u, p.modelMag_g, p.modelMag_r, p.modelMag_i, p.modelMag_z, p.fiberMag_u, p.fiberMag_g, p.fiberMag_r, p.fiberMag_i, p.fiberMag_z, p.petroR50_r, p.petroR50_z, p.petroR90_r, p.petroR90_z, p.r, p.i, p.z, s.zerr
+FROM PhotoObj AS p
+   JOIN SpecObj AS s ON s.bestobjid = p.objid
+WHERE 
+  (s.class='GALAXY' OR s.class='QSO') AND 
+  s.z = null
+  CLEAN = 1 AND
+  s.zerr < 0.05   
+
+DR7 :
+SELECT ALL
+    p.objid, p.modelMag_u, p.modelMag_g, p.modelMag_r, p.modelMag_i, p.modelMag_z, p.fiberMag_u, p.fiberMag_g, p.fiberMag_r, p.fiberMag_i, p.fiberMag_z, p.petroR50_r, p.petroR50_z, p.petroR90_r, p.petroR90_z, p.r, p.i, p.z, s.zerr 
+FROM PhotoObj AS p
+   JOIN SpecObj AS s ON s.bestobjid = p.objid
+WHERE 
+  (s.specClass='2' OR s.specClass='3' OR s.specClass='4' OR s.specClass='5') AND
+  s.z = null AND
+  CLEAN = 1 AND
+  s.zerr < 0.05 
